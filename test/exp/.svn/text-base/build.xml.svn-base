@@ -1,0 +1,9 @@
+<project name="jsspec2" default="test" basedir=".">
+	<property file="build.properties" />
+
+	<target name="test">
+		<java jar="lib/js.jar" fork="true">
+			<arg line="-f src/JSSpec2.js src/JSSpec2_spec.js" />
+		</java>
+	</target>
+</project>

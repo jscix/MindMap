@@ -1,0 +1,60 @@
+8
+
+dir
+109
+https://jsspec.googlecode.com/svn/trunk/exp
+https://jsspec.googlecode.com/svn
+
+
+
+2008-01-17T08:50:01.647065Z
+102
+jania902
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+92187c49-0d35-0410-b305-2f54cc65526e
+
+lib
+dir
+
+src
+dir
+
+build.properties
+file
+
+
+
+
+2008-09-23T09:53:03.595601Z
+882c04be9b7cd08bf7e51be9106233a8
+2008-01-08T07:16:18.417658Z
+93
+jania902
+has-props
+
+build.xml
+file
+
+
+
+
+2008-09-23T09:53:03.642359Z
+32dca740dafff1d4e751067cd46c688d
+2008-01-17T08:50:01.647065Z
+102
+jania902
+has-props
+

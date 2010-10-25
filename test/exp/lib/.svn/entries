@@ -1,0 +1,53 @@
+8
+
+dir
+109
+https://jsspec.googlecode.com/svn/trunk/exp/lib
+https://jsspec.googlecode.com/svn
+
+
+
+2008-01-08T06:48:25.999286Z
+92
+jania902
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+92187c49-0d35-0410-b305-2f54cc65526e
+
+js.jar
+file
+
+
+
+
+2008-09-23T09:53:02.613683Z
+4995caee1cf36af248f15df2b8ef4341
+2008-01-08T06:48:25.999286Z
+92
+jania902
+has-props
+
+diff_match_patch.js
+file
+
+
+
+
+2008-09-23T09:53:03.361811Z
+0e8b249afc85241edad7bdaaddb3dd69
+2007-10-10T09:43:09.150144Z
+82
+jania902
+
