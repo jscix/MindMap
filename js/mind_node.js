@@ -23,13 +23,18 @@ function MindNode(opts) {
 MindNode.prototype = {
   parent: null,
   addChild: function(node) {
+    if(!this.collection)
+      this.collection = new MindNode.Collection(this);
+    
     switch(typeof node) {
       case "object":
-        if(!(node instanceof MindNode))
+        if(!(node instanceof MindNode)) {
+          node.collection = this.collection;
           node = new MindNode(node);
+        }
         break;
       default:
-        node = new MindNode({});
+        node = new MindNode({collection: this.collection});
     }
     
     if(this.children.indexOf(node) >= 0)

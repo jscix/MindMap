@@ -1,6 +1,8 @@
 // At least one MindNodeCollection is present on any view
 // Multiple collections with different root nodes can exist in the same view
 
+// Single MindNodes don't require Collection, but once a root adds a child it should be added to a collection
+
 MindNode.Collection = function(root) {
   switch(typeof root) {
     case "object":
@@ -22,12 +24,5 @@ MindNode.Collection.prototype = {
       this.selected.parent.addChild(node);
     
     return false;
-  },
-  // returns new Collection
-  breakOff: function(node) {
-    node.parent.removeChild(node);
-    return new MindNode.Collection(node);
   }
 };
-// root node
-// Sorting - alpha/timestamps (can only sort under a common parent)
