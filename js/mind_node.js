@@ -23,6 +23,15 @@ function MindNode(opts) {
 MindNode.prototype = {
   parent: null,
   addChild: function(node) {
+    switch(typeof node) {
+      case "object":
+        if(!(node instanceof MindNode))
+          node = new MindNode(node);
+        break;
+      default:
+        node = new MindNode({});
+    }
+    
     if(this.children.indexOf(node) >= 0)
       return false;
 
