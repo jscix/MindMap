@@ -23,33 +23,22 @@ function MindNode(opts) {
 MindNode.prototype = {
   parent: null,
   addChild: function(node) {
-    if(!this.collection)
-      this.collection = new MindNode.Collection(this);
-    
-    switch(typeof node) {
-      case "object":
-        if(!(node instanceof MindNode)) {
-          node.collection = this.collection;
-          node = new MindNode(node);
-        }
-        break;
-      default:
-        node = new MindNode({collection: this.collection});
-    }
-    
-    if(this.children.indexOf(node) >= 0)
+		if(node.constructor != MindNode)
+			node = new MindNode(node);
+    if(this.children.indexOf(node) != -1)
       return false;
 
     this.children.push(node);
     node.parent = this;
-    return true;
+    return node;
   },
   // remove child at index i
   removeChild: function(node) {
     var nodeIndex = this.children.indexOf(node);
 
     node.parent = null;
-    return this.children.splice(nodeIndex, 1);
+    this.children.splice(nodeIndex, 1);
+		return this;
   },
   addCousin: function(node) {
     if(this.cousins.indexOf(node) >= 0)
@@ -88,5 +77,9 @@ MindNode.prototype = {
     }
 
     return siblings;
-  }
+  },
+	notifySubscribers: function() {
+		if(this.collection)
+			this.collection.notifySubscribers();
+	}
 };

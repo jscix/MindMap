@@ -10,5 +10,32 @@
     <script src="js/mind_node.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/mind_node_collection.js" type="text/javascript" charset="utf-8"></script>
     <script src="lib/raphael-min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			function drawList() {
+				var collection = this,
+						root = collection.root;
+
+				function drawChildren(node) {
+					var i,
+							j,
+							children = node.children,
+							child;
+					console.log(node.text);
+					children = node.children;
+					for(i = 0, j = children.length; i < j; i++) {
+						child = children[i];
+						drawChildren(child);
+					}
+				}
+
+				drawChildren(root);
+			}
+			var c = new MindNode.Collection(new MindNode({text: "Central Idea"}));
+			c.subscribe(drawList);
+			c.addChild({text: "First Child"});
+			c.addSibling({text: "First Sibling"});
+			c.addChild({text: "First Grandchild"});
+			c.notifySubscribers();
+		</script>
   </body>
 </html>
