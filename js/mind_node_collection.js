@@ -1,20 +1,20 @@
-// At least one MindNodeCollection is present on any view
+// At least one SnapCollection is present on any view
 // Multiple collections with different root nodes can exist in the same view
 
-MindNode.Collection = function(root) {
+Snap.Collection = function(root) {
   switch(typeof root) {
     case "object":
-      if(!(root instanceof MindNode))
-        root = new MindNode(root);
+      if(!(root instanceof Snap.Node))
+        root = new Snap.Node(root);
       break;
     default:
-      root = new MindNode({});
+      root = new Snap.Node({});
   }
-  this.root = root || new MindNode({});
+  this.root = root || new Snap.Node({});
   this.selected = this.root;
 	this.listeners = [];
 };
-MindNode.Collection.prototype = {
+Snap.Collection.prototype = {
 	select: function(node) {
 		this.selected = node;
 		return node;

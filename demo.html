@@ -30,7 +30,7 @@
 
 				drawChildren(root);
 			}
-			var c = new MindNode.Collection(new MindNode({text: "Central Idea"}));
+			var c = new Snap.Collection(new Snap.Node({text: "Central Idea"}));
 			c.subscribe(drawList);
 			c.addChild({text: "First Child"});
 			c.addSibling({text: "First Sibling"});
