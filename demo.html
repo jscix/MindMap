@@ -3,6 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title>For Demoing Code in MindMap project</title>
+    <style type="text/css" media="screen">
+      .hidden {display:none;}
+    </style>
   </head>
   <body>
     <div id="display"></div>
@@ -10,32 +13,122 @@
     <script src="js/mind_node.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/mind_node_collection.js" type="text/javascript" charset="utf-8"></script>
     <script src="lib/raphael-min.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" charset="utf-8">
-			function drawList() {
-				var collection = this,
-						root = collection.root;
+    <h2>Collections:</h2>
+    <ul id="collections">
+        <li class="template hidden">
+          <input type="text" name="" value="" />
+          <input type="button" name="" value="Add Child" />
+          <ul></ul>
+        </li>
+    </ul>
+    <input type="button" id="addCollection" value="Add a Collection" name="" />
+    <script type="text/javascript" charset="utf-8">
+      function clone(elem) {
+        var newElem = document.createElement(elem.tagName);
+        
+        newElem.innerHTML = elem.innerHTML;
+        return newElem;
+      }
+      
+      function addEvent(element, type, func) {
+        if(element.addEventListener) {
+          addEvent = function(element, type, func) {
+            element.addEventListener(type, func, false);
+          };
+        }
+        else if(element.attachEvent) {
+          addEvent = function(element, type, func) {
+            element.attachEvent("on" + type, func);
+          };
+        }
+        else {
+          addEvent = function(element, type, func) {
+            type = "on" + type;
+            var oldFunc = element[type];
+            element[type] = function() {
+              oldFunc();
+              func();
+            };
+          }
+        }
+        
+        addEvent(element, type, func);
+      }
+      
+      function getTarget(evt) {
+          return (evt.target) ? evt.target : window.event.srcElement;
+      }
+    
+      var collectionsNode = document.getElementById("collections");
+          originalItem = collections.getElementsByTagName("li")[0];
+          itemTemplate = clone(originalItem);
+      
+      originalItem.parentNode.removeChild(originalItem);
+      
+      function drawLists() {
+        var k = 0,
+            l = collectionsData.length,
+            root,
+            collection;
 
-				function drawChildren(node) {
-					var i,
-							j,
-							children = node.children,
-							child;
-					console.log(node.text);
-					children = node.children;
-					for(i = 0, j = children.length; i < j; i++) {
-						child = children[i];
-						drawChildren(child);
-					}
-				}
+        collectionsNode.innerHTML = "";
+        for(;k < l; k++) {
+          collection = collectionsData[k];
+          root = collection.root;
+          drawChildren(root, collectionsNode);
+        }
 
-				drawChildren(root);
-			}
-			var c = new Snap.Collection(new Snap.Node({text: "Central Idea"}));
-			c.subscribe(drawList);
-			c.addChild({text: "First Child"});
-			c.addSibling({text: "First Sibling"});
-			c.addChild({text: "First Grandchild"});
-			c.notifySubscribers();
-		</script>
+        function drawChildren(node, rootDomNode) {
+          var i,
+              j,
+              children = node.children,
+              child,
+              currentDomNode = clone(itemTemplate),
+              listRoot = currentDomNode.getElementsByTagName("ul")[0];
+
+          children = node.children;
+          currentDomNode.getElementsByTagName("input")[0].value = node.text || "";
+          currentDomNode.dataNode = node;
+          rootDomNode.appendChild(currentDomNode);
+          
+          for(i = 0, j = children.length; i < j; i++) {
+            child = children[i];
+            drawChildren(child, listRoot);
+          }
+        }
+
+      }
+      
+      var collectionsData = [];
+      
+      function addCollection() {
+        var newCollectionNode = clone(itemTemplate);
+
+        collectionsData.push(new Snap.Collection());
+        collectionsNode.appendChild(newCollectionNode);
+        newCollectionNode.getElementsByTagName("input")[0].focus();
+        drawLists();
+      }
+      
+      function addChild(node) {
+        node.addChild();
+        drawLists();
+      }
+      
+      function updateText(node, text) {
+        
+      }
+      
+      document.getElementById("addCollection").onclick = addCollection;
+      addEvent(document.documentElement, "click", function(event) {
+        var target = getTarget(event);
+        if(target.tagName.toLowerCase() == "input" && target.value == itemTemplate.getElementsByTagName("input")[1].value) {
+          var listItem = target.parentNode,
+              dataNode = listItem.dataNode;
+          addChild(dataNode);
+        }
+      });
+      
+    </script>
   </body>
 </html>

@@ -20,10 +20,12 @@ Snap.Node = function(opts) {
   }
   this.children = [];
   this.cousins = [];
-}
+};
 Snap.Node.prototype = {
   parent: null,
   addChild: function(node) {
+    node = node ? node : {};
+    
 		if(node.constructor != Snap)
 			node = new Snap.Node(node);
     if(this.children.indexOf(node) != -1)
