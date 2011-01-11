@@ -102,32 +102,56 @@
       var collectionsData = [];
       
       function addCollection() {
-        var newCollectionNode = clone(itemTemplate);
+        var newCollectionNode = clone(itemTemplate),
+            collectionNodes;
 
         collectionsData.push(new Snap.Collection());
         collectionsNode.appendChild(newCollectionNode);
-        newCollectionNode.getElementsByTagName("input")[0].focus();
         drawLists();
+        collectionNodes = collectionsNode.getElementsByTagName("li");
+        collectionNodes[collectionNodes.length - 1].getElementsByTagName("input")[0].focus();
       }
       
       function addChild(node) {
-        node.addChild();
+        var newNode = node.addChild();
         drawLists();
+        
+        var listItems = collectionsNode.getElementsByTagName("li"),
+            i = 0,
+            j = listItems.length,
+            listItem;
+        for(;i < j; i++) {
+          listItem = listItems[i];
+          if(listItem.dataNode && listItem.dataNode == newNode) {
+            listItem.getElementsByTagName("input")[0].focus();
+            return;
+          }
+        }
       }
       
       function updateText(node, text) {
-        
+        node.text = text;
       }
       
-      document.getElementById("addCollection").onclick = addCollection;
-      addEvent(document.documentElement, "click", function(event) {
-        var target = getTarget(event);
-        if(target.tagName.toLowerCase() == "input" && target.value == itemTemplate.getElementsByTagName("input")[1].value) {
-          var listItem = target.parentNode,
-              dataNode = listItem.dataNode;
-          addChild(dataNode);
-        }
-      });
+      window.onload = function() {
+        document.getElementById("addCollection").onclick = addCollection;
+        addEvent(document.documentElement, "click", function(event) {
+          var target = getTarget(event);
+          if(target.tagName.toLowerCase() == "input" && target.getAttribute("type") == "button" && target.value == itemTemplate.getElementsByTagName("input")[1].value) {
+            var listItem = target.parentNode,
+                dataNode = listItem.dataNode;
+            addChild(dataNode);
+          }
+        });
+        addEvent(document.documentElement, "keyup", function(event) {
+          var target = getTarget(event);
+          if(target.tagName.toLowerCase() == "input" && target.getAttribute("type") == "text")
+            var listItem = target.parentNode,
+                dataNode = listItem.dataNode;
+            if(dataNode)
+              updateText(dataNode, target.value);
+        });
+      };
       
     </script>
   </body>
